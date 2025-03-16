@@ -1,25 +1,25 @@
 <?php
 
 // Interface Strategy
-interface outputType{
+interface IOutputType{
  public function output($data);   
 }
 
 // Concrete Strategies
 
-class console implements outputType{
+class console implements IOutputType{
     public function output($data){
         return 'Console output:' .  $data . PHP_EOL;
     }
 }
 
-class formatJson implements outputType{
+class formatJson implements IOutputType{
     public function output($data){
         return json_encode($data);
     }
 }
 
-class formatTxt implements outputType{
+class formatTxt implements IOutputType{
     public function output($data){
         $fileName = "output_" . uniqid() . ".txt";
         file_put_contents($fileName, $data);
@@ -30,10 +30,10 @@ class formatTxt implements outputType{
 // Context Class
 
 class outputContext{
-    private $selectedOutput;
+    private IOutputType $selectedOutput;
 
     //Setter
-    public function setOutput(outputType $outputType){
+    public function setOutput(IOutputType $outputType){
         $this->selectedOutput = $outputType;
     }
 
